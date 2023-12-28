@@ -1,0 +1,41 @@
+package errors_pages
+
+import "github.com/emarifer/go-echo-templ-htmx/views/layout"
+
+templ Error401(fromProtected bool) {
+	<section class="flex flex-col items-center justify-center h-[100vh] gap-4">
+		<div class="items-center justify-center flex flex-col gap-4">
+			<h1 class="text-9xl font-extrabold text-gray-700 tracking-widest">
+				401
+			</h1>
+			<h2 class="bg-rose-700 px-2 text-sm rounded rotate-[20deg] absolute">
+				Status Unauthorized
+			</h2>
+		</div>
+		<p class="text-xs text-center md:text-sm text-gray-400">
+			Please provide valid credentials.
+		</p>
+		<a hx-swap="transition:true" href="/login" class="btn btn-secondary btn-outline">
+			Go Login Page
+		</a>
+	</section>
+}
+
+templ ErrorIndex(
+    title,
+    username string,
+    fromProtected bool,
+    isError bool,
+    cmp templ.Component,
+    ) {
+	@layout.Base(
+		title,
+		username,
+		fromProtected,
+		isError, 
+		[]string{},
+		[]string{},
+		) {
+		@cmp
+	}
+}

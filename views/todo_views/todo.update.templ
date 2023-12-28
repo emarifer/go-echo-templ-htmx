@@ -1,0 +1,63 @@
+package todo_views
+
+import (
+	"strconv"
+
+	"github.com/emarifer/go-echo-templ-htmx/services"
+)
+
+templ UpdateTodo(todo services.Todo, tz string) {
+	<h1 class="text-2xl font-bold text-center mb-8">
+		Update Task #{ strconv.Itoa(int(todo.ID)) }
+	</h1>
+	<section class="max-w-2xl w-4/5 h-96 mx-auto bg-slate-600 rounded-lg shadow-xl">
+		<form class="rounded-xl flex flex-col gap-4 w-11/12 p-4 mx-auto" action="" method="post" hx-swap="transition:true">
+			<label class="flex flex-col justify-start gap-2">
+				Title:
+				<input
+ 					class="input input-bordered input-primary bg-slate-800"
+ 					type="text"
+ 					name="title"
+ 					value={ todo.Title }
+ 					required
+ 					autofocus
+ 					minlength="3"
+ 					maxlength="64"
+				/>
+			</label>
+			<label class="flex flex-col justify-start gap-2">
+				Description:
+				<textarea class="textarea textarea-primary h-36 max-h-36 bg-slate-800" name="description" maxlength="255">
+					{ todo.Description }
+				</textarea>
+			</label>
+			<footer class="card-actions flex justify-between">
+				<div class="flex gap-6 items-center">
+					<label class="cursor-pointer label flex gap-2">
+						<span class="label-text">Status:</span>
+						<input
+ 							type="checkbox"
+ 							class="checkbox checkbox-success"
+ 							name="status"
+ 							checked?={ todo.Status }
+						/>
+					</label>
+					<p class="label-text flex gap-2 items-center">
+						Created At:
+						<span class="text-sm font-bold text-amber-500">
+							{ services.ConvertDateTime(tz, todo.CreatedAt) }
+						</span>
+					</p>
+				</div>
+				<div class="flex gap-4">
+					<button class="badge badge-primary p-4 hover:scale-[1.1]">
+						Update
+					</button>
+					<a href="/todo/list" class="badge badge-neutral p-4 hover:scale-[1.1]">
+						Cancel
+					</a>
+				</div>
+			</footer>
+		</form>
+	</section>
+}

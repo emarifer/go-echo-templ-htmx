@@ -1,0 +1,91 @@
+package todo_views
+
+import (
+	"fmt"
+	"strconv"
+	"strings"
+
+	"github.com/emarifer/go-echo-templ-htmx/services"
+	"github.com/emarifer/go-echo-templ-htmx/views/layout"
+)
+
+templ TodoList(titlePage string, todos []services.Todo) {
+	<div class="flex justify-between max-w-2xl mx-auto border-b border-b-slate-600 mb-8 pb-2">
+		<h1 class="text-2xl font-bold text-center">
+			{ strings.Trim(titlePage, "| ") }
+		</h1>
+		<a hx-swap="transition:true" class="badge badge-info p-4 hover:scale-[1.1]" href="/todo/create">
+			New
+		</a>
+	</div>
+	<section class="overflow-auto max-w-2xl max-h-96 mx-auto bg-slate-600 rounded-lg shadow-xl">
+		<table class="table table-zebra">
+			<!-- head -->
+			<thead class="bg-slate-700">
+				<tr>
+					<th></th>
+					<th>Tasks</th>
+					<th>Status</th>
+					<th class="text-center">Options</th>
+				</tr>
+			</thead>
+			if len(todos) != 0 {
+				<tbody>
+					for _, todo := range todos {
+						<tr>
+							<th>{ strconv.Itoa(int(todo.ID)) }</th>
+							<td>{ todo.Title }</td>
+							<td>
+								if todo.Status {
+									✅
+								} else {
+									❌
+								}
+							</td>
+							<td class="flex justify-center gap-2">
+								<a
+ 									hx-swap="transition:true"
+ 									hx-headers="js:{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}"
+ 									href={ templ.URL(fmt.Sprintf("/todo/edit/%d", todo.ID)) }
+ 									class="badge badge-primary p-3 hover:scale-[1.1]"
+								>
+									Edit
+								</a>
+								<button
+ 									hx-swap="transition:true"
+ 									hx-delete={ fmt.Sprintf("/todo/delete/%d", todo.ID) }
+ 									hx-confirm={ fmt.Sprintf("Are you sure you want to delete the task with ID #%d?", todo.ID) }
+ 									hx-target="body"
+ 									class="badge badge-error p-3 hover:scale-[1.1]"
+								>
+									Delete
+								</button>
+							</td>
+						</tr>
+					}
+				</tbody>
+			} else {
+				<tbody>
+					<tr>
+						<td colspan="4" align="center">
+							You do not have anything to do
+						</td>
+					</tr>
+				</tbody>
+			}
+		</table>
+	</section>
+}
+
+templ TodoIndex(
+    title,
+    username string,
+    fromProtected bool,
+    isError bool,
+	errMsgs, sucMsgs []string,
+    cmp templ.Component,
+    ) {
+	@layout.Base(title, username, fromProtected, isError, errMsgs, sucMsgs) {
+		@cmp
+	}
+}

@@ -1,0 +1,38 @@
+package partials
+
+templ Navbar(username string, fromProtected bool) {
+	<nav class="navbar bg-primary text-primary-content fixed top-0 z-10">
+		<div class="navbar-start">
+			<a hx-swap="transition:true" class="btn btn-ghost text-xl" href="/">
+				Todo List
+			</a>
+		</div>
+		<div class="navbar-end">
+			if fromProtected {
+				<span class="font-bold text-indigo-700 mr-8">
+					{ username }
+				</span>
+				<a hx-swap="transition:true" class="btn btn-ghost text-lg" href="/todo/list">
+					Tasks
+				</a>
+				<button
+ 					hx-swap="transition:true"
+ 					hx-post="/todo/logout"
+ 					hx-confirm="Are you sure you want to log out?"
+ 					hx-target="body"
+ 					hx-push-url="true"
+ 					class="btn btn-ghost text-lg"
+				>
+					Logout
+				</button>
+			} else {
+				<a hx-swap="transition:true" class="btn btn-ghost text-lg" href="/register">
+					Register
+				</a>
+				<a hx-swap="transition:true" class="btn btn-ghost text-lg" href="/login">
+					Login
+				</a>
+			}
+		</div>
+	</nav>
+}

@@ -1,0 +1,36 @@
+package layout
+
+import "github.com/emarifer/go-echo-templ-htmx/views/partials"
+
+templ Base(title, username string, fromProtected, isError bool, errMsgs, sucMsgs []string) {
+	<!DOCTYPE html>
+	<html lang="en" data-theme="dark">
+		<head>
+			<meta charset="UTF-8"/>
+			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<meta
+ 				name="description"
+ 				content="Go/Echo+Templ+Htmx: Full stack application using Golang's Echo framework & Templ templating language with user session management + CRUD to a SQLite database (To Do List) and HTMX in the frontend"
+			/>
+			<meta name="google" content="notranslate"/>
+			<link rel="shortcut icon" href="/img/templ.png" type="image/png"/>
+			<script src="https://cdn.tailwindcss.com"></script>
+			<link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.10/dist/full.min.css" rel="stylesheet" type="text/css"/>
+			<link rel="stylesheet" href="/css/styles.css"/>
+			<title>Todo List { title }</title>
+			<script src="https://unpkg.com/htmx.org@1.9.9" integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX" crossorigin="anonymous"></script>
+			<script src="https://unpkg.com/hyperscript.org@0.9.12"></script>
+		</head>
+		<body class="sample-transition" hx-boost="true">
+			<header>
+				if !isError {
+					@partials.Navbar(username, fromProtected)
+				}
+			</header>
+			<main class={ templ.KV("pt-40", !isError) }>
+				{ children... }
+				@partials.FlashMessages(errMsgs, sucMsgs)
+			</main>
+		</body>
+	</html>
+}
