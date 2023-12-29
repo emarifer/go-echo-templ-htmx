@@ -45,7 +45,6 @@ templ TodoList(titlePage string, todos []services.Todo) {
 							<td class="flex justify-center gap-2">
 								<a
  									hx-swap="transition:true"
- 									hx-headers="js:{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}"
  									href={ templ.URL(fmt.Sprintf("/todo/edit/%d", todo.ID)) }
  									class="badge badge-primary p-3 hover:scale-[1.1]"
 								>

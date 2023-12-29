@@ -10,6 +10,7 @@ templ Login(fromProtected bool) {
 			</h1>
 			<form
  				hx-swap="transition:true"
+ 				hx-headers="js:{'X-TimeZone': Intl.DateTimeFormat().resolvedOptions().timeZone}"
  				class="rounded-xl drop-shadow-xl flex flex-col gap-4 w-96 p-8"
  				action=""
  				method="post"

@@ -34,7 +34,7 @@ func Login(fromProtected bool) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><form hx-swap=\"transition:true\" class=\"rounded-xl drop-shadow-xl flex flex-col gap-4 w-96 p-8\" action=\"\" method=\"post\"><label class=\"flex flex-col justify-start gap-2\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</h1><form hx-swap=\"transition:true\" hx-headers=\"js:{&#39;X-TimeZone&#39;: Intl.DateTimeFormat().resolvedOptions().timeZone}\" class=\"rounded-xl drop-shadow-xl flex flex-col gap-4 w-96 p-8\" action=\"\" method=\"post\"><label class=\"flex flex-col justify-start gap-2\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

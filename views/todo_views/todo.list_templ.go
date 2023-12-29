@@ -131,7 +131,7 @@ func TodoList(titlePage string, todos []services.Todo) templ.Component {
 						return templ_7745c5c3_Err
 					}
 				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"flex justify-center gap-2\"><a hx-swap=\"transition:true\" hx-headers=\"js:{&#39;X-TimeZone&#39;: Intl.DateTimeFormat().resolvedOptions().timeZone}\" href=\"")
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</td><td class=\"flex justify-center gap-2\"><a hx-swap=\"transition:true\" href=\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}

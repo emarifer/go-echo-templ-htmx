@@ -22,6 +22,7 @@ const (
 	auth_key          string = "authenticated"
 	user_id_key       string = "user_id"
 	username_key      string = "username"
+	tzone_key         string = "time_zone"
 )
 
 /********** Handlers for Auth Views **********/
@@ -110,6 +111,12 @@ func (ah *AuthHandler) loginHandler(c echo.Context) error {
 	isError = false
 
 	if c.Request().Method == "POST" {
+		// obtaining the time zone from the POST request of the login form
+		tzone := ""
+		if len(c.Request().Header["X-Timezone"]) != 0 {
+			tzone = c.Request().Header["X-Timezone"][0]
+		}
+
 		// Authentication goes here
 		user, err := ah.UserServices.CheckEmail(c.FormValue("email"))
 		if err != nil {
@@ -146,11 +153,13 @@ func (ah *AuthHandler) loginHandler(c echo.Context) error {
 			HttpOnly: true,
 		}
 
-		// Set user as authenticated, their username and their ID
+		// Set user as authenticated, their username,
+		// their ID and the client's time zone
 		sess.Values = map[interface{}]interface{}{
 			auth_key:     true,
 			user_id_key:  user.ID,
 			username_key: user.Username,
+			tzone_key:    tzone,
 		}
 		sess.Save(c.Request(), c.Response())
 
@@ -186,6 +195,10 @@ func (ah *AuthHandler) authMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 
 		if username, ok := sess.Values[username_key].(string); ok && len(username) != 0 {
 			c.Set(username_key, username) // set the username in the context
+		}
+
+		if tzone, ok := sess.Values[tzone_key].(string); ok && len(tzone) != 0 {
+			c.Set(tzone_key, tzone) // set the client's time zone in the context
 		}
 
 		fromProtected = true

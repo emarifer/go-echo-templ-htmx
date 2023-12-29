@@ -93,14 +93,9 @@ func (th *TaskHandler) todoListHandler(c echo.Context) error {
 
 func (th *TaskHandler) updateTodoHandler(c echo.Context) error {
 	isError = false
-	tzone := ""
-	if len(c.Request().Header["X-Timezone"]) != 0 {
-		tzone = c.Request().Header["X-Timezone"][0]
-	}
 
 	idParams, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		fmt.Println(err)
 		return err
 	}
 
@@ -161,8 +156,8 @@ func (th *TaskHandler) updateTodoHandler(c echo.Context) error {
 		fromProtected,
 		isError,
 		getFlashmessages(c, "error"),
-		getFlashmessages(c, "success"),
-		todo_views.UpdateTodo(todo, tzone),
+		getFlashmessages(c, "success"), // ↓ getting time zone from context ↓
+		todo_views.UpdateTodo(todo, c.Get(tzone_key).(string)),
 	))
 }
 
