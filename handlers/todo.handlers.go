@@ -205,6 +205,7 @@ func (th *TaskHandler) logoutHandler(c echo.Context) error {
 		auth_key:     false,
 		user_id_key:  "",
 		username_key: "",
+		tzone_key:    "",
 	}
 	sess.Save(c.Request(), c.Response())
 
