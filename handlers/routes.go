@@ -2,17 +2,12 @@ package handlers
 
 import "github.com/labstack/echo/v4"
 
-var (
-	fromProtected bool = false
-	isError       bool = false
-)
-
 func SetupRoutes(e *echo.Echo, ah *AuthHandler, th *TaskHandler) {
-	e.GET("/", ah.homeHandler)
-	e.GET("/login", ah.loginHandler)
-	e.POST("/login", ah.loginHandler)
-	e.GET("/register", ah.registerHandler)
-	e.POST("/register", ah.registerHandler)
+	e.GET("/", ah.flagsMiddleware(ah.homeHandler))
+	e.GET("/login", ah.flagsMiddleware(ah.loginHandler))
+	e.POST("/login", ah.flagsMiddleware(ah.loginHandler))
+	e.GET("/register", ah.flagsMiddleware(ah.registerHandler))
+	e.POST("/register", ah.flagsMiddleware(ah.registerHandler))
 
 	protectedGroup := e.Group("/todo", ah.authMiddleware)
 	/* ↓ Protected Routes ↓ */

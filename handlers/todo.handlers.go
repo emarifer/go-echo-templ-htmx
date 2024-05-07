@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"strconv"
@@ -36,7 +37,12 @@ type TaskHandler struct {
 }
 
 func (th *TaskHandler) createTodoHandler(c echo.Context) error {
-	isError = false
+	// isError = false
+	c.Set("ISERROR", false)
+	fromProtected, ok := c.Get("FROMPROTECTED").(bool)
+	if !ok {
+		return errors.New("invalid type for key 'FROMPROTECTED'")
+	}
 
 	if c.Request().Method == "POST" {
 		todo := services.Todo{
@@ -59,7 +65,7 @@ func (th *TaskHandler) createTodoHandler(c echo.Context) error {
 		"| Create Todo",
 		c.Get(username_key).(string),
 		fromProtected,
-		isError,
+		c.Get("ISERROR").(bool),
 		getFlashmessages(c, "error"),
 		getFlashmessages(c, "success"),
 		todo_views.CreateTodo(),
@@ -67,7 +73,13 @@ func (th *TaskHandler) createTodoHandler(c echo.Context) error {
 }
 
 func (th *TaskHandler) todoListHandler(c echo.Context) error {
-	isError = false
+	// isError = false
+	c.Set("ISERROR", false)
+	fromProtected, ok := c.Get("FROMPROTECTED").(bool)
+	if !ok {
+		return errors.New("invalid type for key 'FROMPROTECTED'")
+	}
+
 	userId := c.Get(user_id_key).(int)
 
 	todos, err := th.TodoServices.GetAllTodos(userId)
@@ -84,7 +96,7 @@ func (th *TaskHandler) todoListHandler(c echo.Context) error {
 		titlePage,
 		c.Get(username_key).(string),
 		fromProtected,
-		isError,
+		c.Get("ISERROR").(bool),
 		getFlashmessages(c, "error"),
 		getFlashmessages(c, "success"),
 		todo_views.TodoList(titlePage, todos),
@@ -92,7 +104,12 @@ func (th *TaskHandler) todoListHandler(c echo.Context) error {
 }
 
 func (th *TaskHandler) updateTodoHandler(c echo.Context) error {
-	isError = false
+	// isError = false
+	c.Set("ISERROR", false)
+	fromProtected, ok := c.Get("FROMPROTECTED").(bool)
+	if !ok {
+		return errors.New("invalid type for key 'FROMPROTECTED'")
+	}
 
 	idParams, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
@@ -154,7 +171,7 @@ func (th *TaskHandler) updateTodoHandler(c echo.Context) error {
 		fmt.Sprintf("| Edit Todo #%d", todo.ID),
 		c.Get(username_key).(string),
 		fromProtected,
-		isError,
+		c.Get("ISERROR").(bool),
 		getFlashmessages(c, "error"),
 		getFlashmessages(c, "success"), // ↓ getting time zone from context ↓
 		todo_views.UpdateTodo(todo, c.Get(tzone_key).(string)),
@@ -211,7 +228,8 @@ func (th *TaskHandler) logoutHandler(c echo.Context) error {
 
 	setFlashmessages(c, "success", "You have successfully logged out!!")
 
-	fromProtected = false
+	// fromProtected = false
+	c.Set("FROMPROTECTED", false)
 
 	return c.Redirect(http.StatusSeeOther, "/login")
 }
