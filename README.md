@@ -7,7 +7,10 @@ A full stack application using Golang's Echo framework. Requests to the backend 
 
 ![GitHub License](https://img.shields.io/github/license/emarifer/go-echo-templ-htmx) ![Static Badge](https://img.shields.io/badge/Go-%3E=1.18-blue)
 
-</div>
+</div><br />
+
+>[!NOTE]
+>***This application is an clone of this [repository](https://github.com/emarifer/rust-axum-askama-htmx-todoapp) of mine (rust-axum-askama-htmx-todoapp), but made in `Golang`.***
 
 <hr />
 
