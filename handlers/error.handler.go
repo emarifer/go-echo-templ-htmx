@@ -44,3 +44,15 @@ func CustomHTTPErrorHandler(err error, c echo.Context) {
 		errorPage(c.Get("FROMPROTECTED").(bool)),
 	))
 }
+
+func RouteNotFoundHandler(c echo.Context) error {
+	// Hardcoded parameters
+
+	return renderView(c, errors_pages.ErrorIndex(
+		fmt.Sprintf("| Error (%d)", 404),
+		"",
+		false,
+		true,
+		errors_pages.Error404(false),
+	))
+}

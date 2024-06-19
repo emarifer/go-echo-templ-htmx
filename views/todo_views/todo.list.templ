@@ -54,6 +54,22 @@ templ TodoList(titlePage string, todos []services.Todo) {
  									hx-swap="transition:true"
  									hx-delete={ fmt.Sprintf("/todo/delete/%d", todo.ID) }
  									hx-confirm={ fmt.Sprintf("Are you sure you want to delete the task with ID #%d?", todo.ID) }
+ 									onClick="this.addEventListener('htmx:confirm', (e) => {
+										e.preventDefault()
+										Swal.fire({
+											title: 'Do you want to perform this action?',
+											text: `${e.detail.question}`,
+											icon: 'warning',
+											background: '#1D232A',
+											color: '#A6ADBA',
+											showCancelButton: true,
+											confirmButtonColor: '#3085d6',
+											cancelButtonColor: '#d33',
+											confirmButtonText: 'Yes, delete it!'
+										}).then((result) => {
+											if(result.isConfirmed) e.detail.issueRequest(true);
+										})
+									})"
  									hx-target="body"
  									class="badge badge-error p-3 hover:scale-[1.1]"
 								>

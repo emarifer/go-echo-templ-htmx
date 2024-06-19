@@ -1,6 +1,8 @@
 package handlers
 
-import "github.com/labstack/echo/v4"
+import (
+	"github.com/labstack/echo/v4"
+)
 
 func SetupRoutes(e *echo.Echo, ah *AuthHandler, th *TaskHandler) {
 	e.GET("/", ah.flagsMiddleware(ah.homeHandler))
@@ -18,4 +20,7 @@ func SetupRoutes(e *echo.Echo, ah *AuthHandler, th *TaskHandler) {
 	protectedGroup.POST("/edit/:id", th.updateTodoHandler)
 	protectedGroup.DELETE("/delete/:id", th.deleteTodoHandler)
 	protectedGroup.POST("/logout", th.logoutHandler)
+
+	/* ↓ Fallback Page ↓ */
+	e.GET("/*", RouteNotFoundHandler)
 }

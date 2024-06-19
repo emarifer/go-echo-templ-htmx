@@ -74,6 +74,13 @@ Finally, minimal use of [_hyperscript](https://hyperscript.org/) is made to achi
 
 ## 👨‍🚀 Setup:
 
+Before compiling the view templates, you'll need to regenerate the CSS. First, you need to install the dependencies required by `Tailwind CSS` and `daisyUI` (you must have `Node.js` installed on your system) and then run the regeneration of the `main.css` file. To do this, apply the following commands:
+
+```
+$ cd tailwind && npm i
+$npm run build-css-prod # `npm run watch-css` regenerate the css in watch mode for development
+```
+
 Besides the obvious prerequisite of having Go! on your machine, you must have Air installed for hot reloading when editing code.
 
 >[!TIP]

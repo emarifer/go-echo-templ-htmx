@@ -3,3 +3,6 @@ bin
 
 app_data.db
 **/*_templ.go
+assets/css/main.css
+
+tailwind/node_modules

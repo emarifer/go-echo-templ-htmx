@@ -1,8 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Kanit&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-    font-family: "Kanit", sans-serif;
+@font-face {
+    font-family: Kanit;
+    font-weight: normal;
+    src: url("../fonts/Kanit-Regular.ttf") format("truetype");
 }
+
+/* --------------------------------------- */
+/* ---------- View Transitions ----------- */
+/* --------------------------------------- */
 
 @keyframes fade-in {
     from {
